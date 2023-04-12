@@ -1,0 +1,26 @@
+version: '3'
+services:
+  mysql-docker-container:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=AppleBank2023#12
+      - MYSQL_DATABASE=absa
+      - MYSQL_USER=simba
+      - MYSQL_PASSWORD=simba
+    volumes:
+      - /data/mysql
+    ports:
+      - 3333:3306
+    container_name: absa
+  absa-app:
+    image: absa-image
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-docker-container
+    ports:
+      - 8080:8080
+    volumes:
+      - /data/spring-boot-app
+    container_name: AbsaBanking-0.0.1-SNAPSHOT.jar
