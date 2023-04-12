@@ -29,7 +29,9 @@ This  will create a db for you, check with your favourite workbench
 2. Build and run app
 
 >Build your maven  project  using -- mvn clean install 
-> Change directory to project folder  && java -jar target/AbsaBanking-0.0.1-SNAPSHOT.jar
+> 
+>  Change directory to project folder  && java -jar target/AbsaBanking-0.0.1-SNAPSHOT.jar
+> 
 > Access  the endpoints  as  stated above .I have provided some sample  requests  to test in src/test/resources/scratch.txt
 
 3. Test  Cases
