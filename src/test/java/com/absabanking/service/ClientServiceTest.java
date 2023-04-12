@@ -2,6 +2,7 @@ package com.absabanking.service;
 
 import com.absabanking.enums.EPreferredContactType;
 import com.absabanking.enums.ESex;
+import com.absabanking.enums.Eeducation;
 import com.absabanking.exception.ClientAlreadyExistsException;
 import com.absabanking.model.*;
 import com.absabanking.repository.AccountRepository;
@@ -146,27 +147,6 @@ class ClientServiceTest {
 
         assertEquals(2, client.getAccounts().size());
     }
-
-  /*  @Test
-    public void givenNewClientSavingAccountMustHaveSignOnBonus() {
-        Bank bank = createBank();
-        Mockito.when(bankRepository.save(bank)).thenReturn(bank);
-        Client client = createClient();
-
-
-        Mockito.when(cardRepository.findTopByOrderByCardNumberDesc()).thenReturn(null);
-
-        Mockito.when(clientRepository.save(client)).thenReturn(client);
-
-        clientService.createBankClient(client, bank.getBankCode());
-
-        // fetch saving account
-        Account savingsAccount = client.getAccounts().stream()
-                .filter(account -> account.getAccountType().equalsIgnoreCase("Savings")).findFirst().get();
-
-        assertEquals(BigDecimal.valueOf(500), savingsAccount.getAccountBalance());
-    }*/
-
     public Bank createBank() {
         return new Bank("ABSA", "ABSA_" + new Random().nextInt(), EPreferredContactType.SMS);
     }
@@ -175,11 +155,11 @@ class ClientServiceTest {
         Client client = new Client();
         Address address = new Address("Unit 151 Chianti Lifestyle", "80 Leeukwop road", 2196L, "Sandton");
         client.setClientAddress(address);
-        Contact contact = new Contact(774989776L, "sm@gmail.com", 9929332L);
+        Contact contact = new Contact(774989776L, "smakwangudze@gmail.com", 9929332L);
         client.setClientContact(contact);
         client.setDateOfBirth(LocalDate.now().minusYears(20));
         client.setDependents(4);
-        client.setEducation("Bachelors");
+        client.setEducation(Eeducation.PHD);
         client.setESex(ESex.FEMALE);
         client.setIdNumber(96665676L);
         client.setMonthlyExpenses(200);

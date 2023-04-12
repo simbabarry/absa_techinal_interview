@@ -3,6 +3,7 @@ package com.absabanking.model;
 
 import com.absabanking.enums.EPreferredContactType;
 import com.absabanking.enums.ESex;
+import com.absabanking.enums.Eeducation;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,7 +32,8 @@ public class Client extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private ESex eSex;
     private String race;
-    private String education;
+    @Enumerated(EnumType.STRING)
+    private Eeducation education;
     private int dependents;
     private float monthlyExpenses;
     @Column(unique = true)

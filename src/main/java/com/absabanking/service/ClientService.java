@@ -101,8 +101,6 @@ public class ClientService {
         savingsAccount.setAccountBalance(savingsAccountJoiningBonus);
         savingsAccount.setAccountLimit(savingsAccountLimit);
         savingsAccount.addCards(savingsAccountBannkCardList);
-
-
         //create a current account;
         Account currentAccount = new Account();
         currentAccount.setBank(clientBank);
