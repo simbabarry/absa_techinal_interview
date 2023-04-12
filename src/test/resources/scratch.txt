@@ -1,0 +1,76 @@
+Create a bank ,
+assumption: a bank code is unique and it will be issued by the central bank .No
+ banks will have the same bank code .
+{
+  "bankAddress": {
+    "addressLine1": "RandBurgRidge Complex",
+    "addressLine2": "33 Eldorado street",
+    "city": "Sandton",
+    "postalCode": 2987
+  },
+  "bankCode": "ABSA_0098",
+  "bankContact": {
+    "cellNumber": 76566234,
+    "email": "absa@absa.co.za",
+    "homePhone": 776655
+  },
+  "epreferredContactType": "EMAIL",
+  "name": "ABSA"
+}
+
+JSon to Create a  client
+*assumption:  every client will have unique Idnumbers  and passports  and a client will only be created  by  providing a bankcode .
+        ideally  should be able to query home affairs to check validity of dcomunent
+http://localhost:8082/api/client/FNB_0098/create
+{
+  "clientAddress": {
+    "addressLine1": "Unit 151 Chianti LifeStyle",
+    "addressLine2": "80 Leeukwop road",
+    "city": "Sandton",
+    "postalCode": 21342
+  },
+  "clientContact": {
+    "cellNumber": 77544334,
+    "email": "barrytheGEE@gmail.com",
+    "homePhone": 4374764333
+  },
+  "dateOfBirth": "2023-04-11",
+  "dependents": 8,
+  "education": "Masters",
+  "epreferredContactType": "EMAIL",
+  "esex": "MALE",
+  "idNumber": 654544666,
+  "monthlyExpenses": 876665,
+  "name": "Mashudu",
+  "passportNumber": "ABDDGSS",
+  "race": "Black",
+  "receiveNotification": 1,
+  "surname": "Makwangudze"
+}
+
+
+JSon of one/more transactions for when other  banks can credit/debit clients on behalf
+/api/bank/transaction/transaction-on-behalf[
+  {
+    "accountHolderBankCode": "ABSA_0098",
+    "accountNumber": 100000000000,
+    "actingOnBehalfBankCode": "SBSA_0098",
+    "epostingType": "CREDIT",
+    "etranType": "ACT_ON_BEHALF",
+    "narrative": "purchase at sandon city",
+    "transactionAmount": 300
+  }
+]
+
+
+Json  for internal transfers
+/api/bank/transaction/internal-transfers
+{
+"active": true,
+"etranType": "ACT_ON_BEHALF",
+"isActive": true,
+"narrative": "string",
+"receiverAccount": 0,
+"senderAccount": 0,
+"transactionAmount": 0
+}
