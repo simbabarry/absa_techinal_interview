@@ -113,5 +113,4 @@ public class Transaction extends AbstractEntity {
     private List<TransactionState> transactionStates;
     @Enumerated(EnumType.STRING)
     private ETranType tranType;
-
 }

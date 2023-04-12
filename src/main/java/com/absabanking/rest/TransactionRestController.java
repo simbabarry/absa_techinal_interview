@@ -25,20 +25,15 @@ import java.util.List;
 @CrossOrigin
 public class TransactionRestController {
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(TransactionRestController.class);
-
     private final BankService bankService;
     private final AccountService accountService;
-
     private final TransactionService transactionService;
-
-
     @Autowired
     public TransactionRestController(BankService bankService, AccountService accountService, TransactionService transactionService) {
         this.bankService = bankService;
         this.accountService = accountService;
         this.transactionService = transactionService;
     }
-
     @Transactional
     @PostMapping("/internal-transfers")
     @ApiOperation(value = "Customers should be able to move money between their accounts")
@@ -57,7 +52,7 @@ public class TransactionRestController {
     @GetMapping("/list")
     @ApiOperation(value = "View a list of all banks", response = Iterable.class)
     public Iterable list() {
-        return transactionService.getAllBanks();
+        return transactionService.getAllTransactions();
     }
 
     @GetMapping(value = "/find/{id}", produces = "application/json")

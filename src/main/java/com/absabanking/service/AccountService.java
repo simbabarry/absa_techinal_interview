@@ -12,31 +12,24 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AccountService {
     private AccountRepository accountRepository;
-
     @Autowired
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
-
     public synchronized long createAccount(AccountDto accountDto) {
         Account account = new Account();
         accountRepository.save(account);
         return account.getAccountNumber();
     }
-
-
     public Account findAccountByAccountNumberAndAccountTypeIsCurrentAccount(Long accountNumber) {
         return accountRepository.findAccountByAccountNumber(accountNumber);
     }
-
     public Account findAccountByAccountNumber(Long accountNumber) {
         return accountRepository.findAccountByAccountNumber(accountNumber);
     }
-
     public void updateAccount(Account account) {
         accountRepository.save(account);
     }
-
     public Account findAccountByAccountNumberAndBankId(Long accountNumber, Long bankId) {
         return accountRepository.findAccountByAccountNumberAndBankId(accountNumber, bankId);
     }

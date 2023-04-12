@@ -34,20 +34,6 @@ public class EmailService {
     @Value("${spring.mail.password}")
     private String password;
     private Environment environment;
-
-
-
- /*   public void sendEmail(String to, String subject, String text, String from) {
-        final com.absabanking.dto.SimpleMailMessage email = new com.absabanking.dto.SimpleMailMessage();
-        email.setTo(to);
-        email.setSubject(subject);
-        email.setText(text);
-        email.setFrom(from);
-        log.info("Sending email to : {}", to);
-        javaMailSender.send(email);
-        log.info("Done sending email to : {}", to);
-    }*/
-
     /**
      *
      * @param to
@@ -90,7 +76,6 @@ public class EmailService {
         Transport.send(msg);
         log.info("Done sending html email for user: {}", to);
     }
-
     /**
      *
      * @param to
@@ -111,8 +96,6 @@ public class EmailService {
         properties.put("mail.smtp.starttls.enable", startTsls);
         properties.put("mail.smtp.auth", emailAuth);
         properties.put("mail.smtp.port", emailPort);
-
-
         Session session = Session.getInstance(properties,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
@@ -149,6 +132,4 @@ public class EmailService {
         Transport.send(message);
         log.info("Done sending email for user: {}", to);
     }
-
-
 }

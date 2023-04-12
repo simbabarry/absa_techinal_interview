@@ -2,7 +2,6 @@ package com.absabanking.model;
 
 import javax.persistence.*;
 
-import com.absabanking.converter.EPreferredContactTypeConverter;
 import com.absabanking.enums.EPreferredContactType;
 import lombok.AllArgsConstructor;
 import lombok.Data;

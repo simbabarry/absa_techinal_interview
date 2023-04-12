@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -32,12 +31,9 @@ public class TransactionService {
     @Value("${bank.charges.credit_percentage}")
     private BigDecimal bankInterest;
     private ApplicationEventPublisher applicationEventPublisher;
-
     private TransactionRepository transactionRepository;
     private AccountService accountService;
     private BankService bankService;
-
-
     @Autowired
     public TransactionService(ApplicationEventPublisher applicationEventPublisher, TransactionRepository transactionRepository, AccountRepository accountRepository, AccountService accountService, BankService bankService) {
         this.applicationEventPublisher = applicationEventPublisher;
@@ -46,7 +42,7 @@ public class TransactionService {
         this.bankService = bankService;
     }
 
-    public List<Transaction> getAllBanks() {
+    public List<Transaction> getAllTransactions() {
         return transactionRepository.findAll();
     }
 
@@ -68,14 +64,12 @@ public class TransactionService {
         transactionServiceLogger.info("==========================================================================================================");
         transactionServiceLogger.info("---------------transaction executed successfully------------------");
     }
-
     public List<Transaction> findAllTransactionsByBankCode(String bankCode, ETranType eTranType) {
         return transactionRepository.findTransactionByAcquiringInstitutionAndTranType(bankCode, eTranType);
     }
-
-    /**
-     * @param depositDto
-     * @param senderAccount
+    /**Used    for  deposit transactions
+     * @param depositDto the deposit object
+     * @param senderAccount the account of the sender
      */
     public void handleDeposit(DepositDto depositDto, Account senderAccount) {
         if (senderAccount != null) {
@@ -87,7 +81,6 @@ public class TransactionService {
             accountService.updateAccount(senderAccount);
         }
     }
-
     /**
      * @param listOfInterBankTransactionsDTo
      */

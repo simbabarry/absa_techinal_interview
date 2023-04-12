@@ -20,6 +20,9 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,14 +50,16 @@ public class ProcessReconciliationBatchJob {
         this.bankService = bankService;
         this.sendEmailService = sendEmailService;
     }
-
-    @Scheduled(cron = "0/14 * * * * *")
+    /**
+     * This is  a cron   scheduled  to run every day at midnight
+     * more  examples here https://crontab.guru/#0_*_*_*
+     */
+    @Scheduled(cron = "0 0 0 * * *")
     @Transactional
-    public void reportCurrentTime() {
+    public void runCron() {
+        log.info("############################## START BATCH JOB EXECUTION##########################");
         EODProcess();
-        log.info("The time is now {}");
     }
-
     /**
      * For  the End of Day process .Get  all the banks  and  check if they have any transactions  for the current day
      * If they have  create an EOD file .If they  don't well do nothing .
@@ -64,14 +69,13 @@ public class ProcessReconciliationBatchJob {
         for (Bank bank : listOfAllBanks) {
             List<Transaction> transactionsOfTheDayByBankCode = transactionService.findAllTransactionsByBankCode(bank.getBankCode(), ETranType.ACT_ON_BEHALF);
             if (!transactionsOfTheDayByBankCode.isEmpty()) {
-                String outputFileName = bank.getName() + "_" + bank.getBankCode() + "_" + LocalDate.now() + ".csv";
                 log.info("start of eod process for bank : {}  ", bank.getBankCode());
                 for (Transaction transaction : transactionsOfTheDayByBankCode) {
-                    writeEODFiles(transaction, bank.getName(), outputFileName);
+                    writeEODFiles(bank, transaction);
+                    String fileNameToAttachToEmail = writeEODFiles(bank, transaction);
+                    String filePathAndName = baseUrl + bank.getName();
                     log.info("retrieved these transactions : {}", transaction.getSenderAccount());
-                    sendEODFileAsEmailAttachment(bank.getBankContact().getEmail(), SUBJECT, MAIL_TEXT, from, baseUrl, bank.getBankContact().getEmail(), outputFileName);
-                    log.info("archiving files");
-                    archivingProcess();
+                    sendEODFileAsEmailAttachment(bank.getBankContact().getEmail(), SUBJECT, MAIL_TEXT, from, filePathAndName, bank.getBankContact().getEmail(), fileNameToAttachToEmail);
                 }
                 log.info("  end of eod process for bank : {}   ", bank.getBankCode());
             }
@@ -101,56 +105,100 @@ public class ProcessReconciliationBatchJob {
      * Writing End of day  transactions  to a   csv  file
      *
      * @param transaction the  transaction object
-     * @param directory   the  directory to keep the file , each  bank will have its own directory
-     * @param fileName    the  file to write the transactions
+     * @param bank        the  object holding bank details
      */
-    public void writeEODFiles(Transaction transaction, String directory, String fileName) {
-        FileWriter fileWriter = null;
-        String outPutFilePath = baseUrl + fileName;
+    public String writeEODFiles(Bank bank, Transaction transaction) {
         String fileHeader = "AcquiringInstitution,TransactionFee,PosType,Narrative,ReceiverAccount,Reference,SenderAccount,TranType,TransactionCharges,TransactionCurrencyCode";
-        try {
-            File file = new File(directory);
-            file.getParentFile();
-            fileWriter = new FileWriter(outPutFilePath + file);
-            //Write the CSV file header
-            fileWriter.append(fileHeader);
-            //Add a new line separator after the header
-            fileWriter.append(NEW_LINE_SEPARATOR);
-            fileWriter.append(transaction.getAcquiringInstitution());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(transaction.getAmountTransactionFee().toString());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(transaction.getNarrative());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(transaction.getReceiverAccount()));
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(transaction.getReference());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(transaction.getSenderAccount()));
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(transaction.getTranType().toString());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(transaction.getTransactionCharges().toString());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(transaction.getTransactionCurrencyCode().toString());
-            fileWriter.append(COMMA_DELIMITER);
-            log.info("CSV file was created successfully !!!");
-        } catch (Exception e) {
-            System.out.println("Error in CsvFileWriter !!!");
-            e.printStackTrace();
-        } finally {
+        String dirName = baseUrl + bank.getName();
+        String fileName = bank.getName() + "_" + LocalDate.now() + ".csv";
+        FileWriter fileWriter = null;
+        Path path = Paths.get(dirName);
+        if (!Files.exists(path)) {
+            log.info("Directory doesnt  exist  creating new directory :{}", dirName);
             try {
-                fileWriter.flush();
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error while flushing/closing fileWriter !!!");
+                Files.createDirectory(path);
+                File file = new File(dirName, fileName);
+                fileWriter = new FileWriter(file);
+                fileWriter.append(fileHeader);
+                writeFiles(transaction, fileWriter);
+            } catch (Exception e) {
+                System.out.println("Error in CsvFileWriter !!!");
                 e.printStackTrace();
+            } finally {
+                try {
+                    fileWriter.flush();
+                    fileWriter.close();
+                } catch (IOException e) {
+                    System.out.println("Error while flushing/closing fileWriter !!!");
+                    e.printStackTrace();
+                }
             }
-
+            log.info("New EOD Transaction file  has  been  created  successfully created", fileName);
+            log.info("Directory  successfully created", dirName);
+        } else {
+            try {
+                File file = new File(dirName, fileName);
+                fileWriter = new FileWriter(file);
+                fileWriter.append(fileHeader);
+                //Add a new line separator after the header
+                writeFiles(transaction, fileWriter);
+            } catch (Exception e) {
+                System.out.println("Error in CsvFileWriter !!!");
+                e.printStackTrace();
+            } finally {
+                try {
+                    fileWriter.flush();
+                    fileWriter.close();
+                } catch (IOException e) {
+                    System.out.println("Error while flushing/closing fileWriter !!!");
+                    e.printStackTrace();
+                }
+            }
+            log.info("New EOD Transaction file  has  been  created  successfully created", fileName);
+            log.info("Directory  already exists will not create new  Directory ", dirName);
         }
+        return Paths.get(fileName).toString();
     }
 
-    private void archivingProcess() {
+    /**
+     * Util method  to  write to a file
+     *
+     * @param transaction transaction object
+     * @param fileWriter  the  file writer  object
+     * @throws IOException exception
+     */
+    private static void writeFiles(Transaction transaction, FileWriter fileWriter) throws IOException {
+        //Add a new line separator after the header
+        fileWriter.append(NEW_LINE_SEPARATOR);
+        fileWriter.append(transaction.getAcquiringInstitution());
+        fileWriter.append(COMMA_DELIMITER);
+        fileWriter.append(transaction.getAmountTransactionFee().toString());
+        fileWriter.append(COMMA_DELIMITER);
+        fileWriter.append(transaction.getNarrative());
+        fileWriter.append(COMMA_DELIMITER);
+        fileWriter.append(String.valueOf(transaction.getReceiverAccount()));
+        fileWriter.append(COMMA_DELIMITER);
+        fileWriter.append(transaction.getReference());
+        fileWriter.append(COMMA_DELIMITER);
+        fileWriter.append(String.valueOf(transaction.getSenderAccount()));
+        fileWriter.append(COMMA_DELIMITER);
+        fileWriter.append(transaction.getTranType().toString());
+        fileWriter.append(COMMA_DELIMITER);
+        fileWriter.append(transaction.getTransactionCharges().toString());
+        fileWriter.append(COMMA_DELIMITER);
+        fileWriter.append(transaction.getTransactionCurrencyCode().toString());
+        fileWriter.append(COMMA_DELIMITER);
+        log.info("CSV file was created successfully !!!");
+    }
+
+    /**
+     * A neat  way of  archiving  files . Based on the age of the files Suppose  archive all files 10 days old
+     *
+     */
+    @Scheduled(cron = "0 0 12 1 1/1 ?")
+    @Transactional
+    void archivingProcess() {
+        log.info("**********************************START OF ARCHIVING PROCESS*********************************************");
     }
 
 }

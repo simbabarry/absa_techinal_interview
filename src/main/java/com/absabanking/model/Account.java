@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +29,7 @@ public class Account extends AbstractEntity {
     private BigDecimal accountLimit;
     private BigDecimal accountBalance;
     private String accountType;
-    private LocalDate servicingDate;
+    private LocalDate servicingDate = LocalDate.now().plusYears(1);
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id",referencedColumnName = "id", nullable = false)
     private Client client;

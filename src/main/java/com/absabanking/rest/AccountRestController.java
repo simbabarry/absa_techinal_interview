@@ -9,13 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AccountRestController {
-
     private AccountService accountService;
-
     public AccountRestController(AccountService accountService) {
         this.accountService = accountService;
     }
-
     @Description("Create Account")
     @PostMapping(value = "/account/create/")
     public long createAccount(@RequestBody AccountDto accountDto) {

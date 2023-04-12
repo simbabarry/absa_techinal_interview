@@ -35,5 +35,7 @@ public class Card extends AbstractEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private Account account;
-
+    public Card(long cardNumber) {
+        this.cardNumber = cardNumber;
+    }
 }

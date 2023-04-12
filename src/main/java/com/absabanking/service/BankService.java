@@ -57,7 +57,6 @@ public class BankService {
     public Bank findBankByBankCode(String findBankByBankCode) {
         return bankRepository.findBankByBankCode(findBankByBankCode);
     }
-
     public boolean doesBankAlreadyExist(String bankCode) {
         return bankRepository.existsByBankCode(bankCode);
     }
