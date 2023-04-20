@@ -71,8 +71,7 @@ public class TransactionRestController {
     @PostMapping("/deposit")
     @ApiOperation(value = "deposit- transaction")
     public void getBankTransactionCharges(DepositDto depositDto) {
-        Account senderAccount = accountService.findAccountByAccountNumber(depositDto.getAccountNumber());
-        transactionService.handleDeposit(depositDto, senderAccount);
+        transactionService.handleDeposit(depositDto);
     }
 
 

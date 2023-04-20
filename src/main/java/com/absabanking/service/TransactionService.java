@@ -34,6 +34,7 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
     private AccountService accountService;
     private BankService bankService;
+
     @Autowired
     public TransactionService(ApplicationEventPublisher applicationEventPublisher, TransactionRepository transactionRepository, AccountRepository accountRepository, AccountService accountService, BankService bankService) {
         this.applicationEventPublisher = applicationEventPublisher;
@@ -67,20 +68,32 @@ public class TransactionService {
     public List<Transaction> findAllTransactionsByBankCode(String bankCode, ETranType eTranType) {
         return transactionRepository.findTransactionByAcquiringInstitutionAndTranType(bankCode, eTranType);
     }
-    /**Used    for  deposit transactions
+
+    /**
+     * Used    for  deposit transactions
+     *
      * @param depositDto the deposit object
-     * @param senderAccount the account of the sender
      */
-    public void handleDeposit(DepositDto depositDto, Account senderAccount) {
-        if (senderAccount != null) {
+    public void handleDeposit(DepositDto depositDto) {
+        Account receiverAccount = accountService.findAccountByAccountNumber(depositDto.getReceiverAccountNumber());
+        if (receiverAccount != null) {
+            transactionServiceLogger.info("---------------executing a deposit--------------------");
             Transaction transaction = new Transaction();
             transaction.setTranType(ETranType.DEPOSIT);
-            transaction.setNarrative(String.format("Depositing money R%d into account %d", depositDto.getAmount(), depositDto.getAccountNumber()));
+            transaction.setTransactionAmount(depositDto.getAmount());
+            transaction.setNarrative("Depositing money");
             transactionRepository.save(transaction);
-            senderAccount.setAccountBalance(senderAccount.getAccountBalance().add(depositDto.getAmount()));
-            accountService.updateAccount(senderAccount);
+            if (receiverAccount.getAccountType().equalsIgnoreCase(EAccountType.SAVINGS.toString())) {
+                BigDecimal newReceiverBalance = receiverAccount.getAccountBalance().add(receiverAccount.getAccountBalance().multiply(bankInterest)).add(depositDto.getAmount());
+                receiverAccount.setAccountBalance(newReceiverBalance);
+                accountService.updateAccount(receiverAccount);
+            } else
+                receiverAccount.setAccountBalance(receiverAccount.getAccountBalance().add(depositDto.getAmount()));
+            accountService.updateAccount(receiverAccount);
+            transactionServiceLogger.info("---------------deposit executed successfully--------------------");
         }
     }
+
     /**
      * @param listOfInterBankTransactionsDTo
      */
@@ -95,7 +108,7 @@ public class TransactionService {
                     throw new InterbankTransactionException("Can not  process transactions , banks are the same ");
                 }
                 //check if the  bank has that account linked  to it
-                Account account = accountService.findAccountByAccountNumberAndBankId(interbankTransactions.getAccountNumber(),accountHolderBank.getId());
+                Account account = accountService.findAccountByAccountNumberAndBankId(interbankTransactions.getAccountNumber(), accountHolderBank.getId());
                 if (account != null) {
                     EPostingType postingType = interbankTransactions.getEPostingType();
                     interbankTransactions.setETranType(ETranType.ACT_ON_BEHALF);
