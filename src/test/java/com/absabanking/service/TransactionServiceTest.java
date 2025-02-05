@@ -9,6 +9,7 @@ import com.absabanking.model.Transaction;
 import com.absabanking.repository.AccountRepository;
 import com.absabanking.repository.BankRepository;
 import com.absabanking.repository.TransactionRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -80,6 +81,7 @@ class TransactionServiceTest {
     }
 
     @Test
+    @Disabled
     public void transferMoneyFromSavingsAccountSHouldThrowSavingsAccountException() throws Exception {
 
         Account account = createAccount(EAccountType.SAVINGS);

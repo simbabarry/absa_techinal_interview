@@ -19,8 +19,7 @@ public class Bank extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "bank_name")
-
-    private String name;
+    private String bankName;
     private String bankCode;
     @Embedded
     private Address bankAddress;
@@ -29,8 +28,8 @@ public class Bank extends AbstractEntity {
     @Enumerated
     private EPreferredContactType ePreferredContactType;
 
-    public Bank(String name, String bankCode, EPreferredContactType ePreferredContactType) {
-        this.name = name;
+    public Bank(String bankName, String bankCode, EPreferredContactType ePreferredContactType) {
+        this.bankName = bankName;
         this.bankCode = bankCode;
         this.ePreferredContactType = ePreferredContactType;
     }
@@ -40,11 +39,11 @@ public class Bank extends AbstractEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Bank bank = (Bank) o;
-        return name.equals(bank.name) && bankCode.equals(bank.bankCode);
+        return bankName.equals(bank.bankName) && bankCode.equals(bank.bankCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, bankCode);
+        return Objects.hash(super.hashCode(), bankName, bankCode);
     }
 }

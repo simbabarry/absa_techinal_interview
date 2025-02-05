@@ -21,11 +21,9 @@ public class InterBankTransactionsDTo {
     private ETranType eTranType;
     //bank code of the  bank acting on behalf
     @NotNull
-
     private  String actingOnBehalfBankCode;
     // bank code  of the account which was transacting
     @NotNull
-
     private String accountHolderBankCode ;
     @Enumerated(EnumType.STRING)
     private EPostingType ePostingType;

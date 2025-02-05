@@ -28,7 +28,6 @@ public class Card extends AbstractEntity {
     private long pin ;
     private int cvv ;
     @Enumerated(EnumType.STRING)
-
     private EBankCardStatus eBankCardStatus;
     @Column(name = "card_expiry")
     private LocalDateTime cardExpiry =LocalDateTime.now().plusYears(1);

@@ -23,14 +23,17 @@ public class Transaction extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long senderAccount;
+    private Long accountNumber;
     private Long receiverAccount;
+    private Long senderAccount;
     private String narrative;
     @Column(name = "txn_amount")
     private BigDecimal transactionAmount = BigDecimal.ZERO;
     @Column(name = "txn_charges")
     private BigDecimal transactionCharges = BigDecimal.ZERO;
     private String reference;
+    private String comms;
+
     private String cardNumber;
     @Column(length = 4, name = "mti")
     private String mti;
@@ -101,16 +104,16 @@ public class Transaction extends AbstractEntity {
     private String posType;
     @Column(name = "transaction_type_category")
     private String transactionTypeCategory;
-
     @Transient
     private boolean isOnlineTransaction;
     private long batchId;
     @Enumerated(EnumType.STRING)
     private EPostingType ePostingType;
-
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<TransactionState> transactionStates;
     @Enumerated(EnumType.STRING)
     private ETranType tranType;
+
+
 }

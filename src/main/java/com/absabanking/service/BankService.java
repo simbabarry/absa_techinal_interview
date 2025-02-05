@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -46,18 +47,32 @@ public class BankService {
         return bankRepository.findAll();
     }
 
-    public Bank findBankById(long id) {
-        return bankRepository.findById(id).orElse(null);
+    /**
+     *
+     * @param id look up a bank by the bank id
+     * @return the bank
+     */
+    public Optional<Bank> findBankById(long id) {
+
+        return bankRepository.findById(id);
     }
 
     public long banksCount() {
         return bankRepository.count();
     }
 
-    public Bank findBankByBankCode(String findBankByBankCode) {
-        return bankRepository.findBankByBankCode(findBankByBankCode);
+    public Optional<Bank> findBankByBankCode(String findBankByBankCode) {
+        return Optional.ofNullable(bankRepository.findBankByBankCode(findBankByBankCode));
     }
     public boolean doesBankAlreadyExist(String bankCode) {
         return bankRepository.existsByBankCode(bankCode);
+    }
+
+    /**
+     *
+     * @param bank the bank to be updated
+     */
+    public void updateBank(Bank bank) {
+        bankRepository.save(bank);
     }
 }

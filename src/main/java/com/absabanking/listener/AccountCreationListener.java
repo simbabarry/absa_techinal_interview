@@ -1,36 +1,44 @@
 package com.absabanking.listener;
 
+
 import com.absabanking.dto.ClientDto;
 import com.absabanking.enums.EPreferredContactType;
+import com.absabanking.model.Account;
 import com.absabanking.model.Client;
-import com.absabanking.model.Transaction;
 import com.absabanking.repository.ClientRepository;
+import com.absabanking.service.EmailService;
 import com.absabanking.util.GenderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 @Component
-public class TransactionEventListener {
-    public TransactionEventListener() {
+public class AccountCreationListener {
+
+    public AccountCreationListener() {
     }
+    EmailService sendEmailService;
     private ClientRepository clientRepository;
     @Autowired
-    public TransactionEventListener(ClientRepository clientRepository) {
+    public AccountCreationListener(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(TransactionEventListener.class);
-    @EventListener(Transaction.class)
-    void handleTransactionEvent(Transaction transactionEvent) {
-        logger.info("_________________START of internal transfer log___________________________");
-        ClientDto recipient = getClientCommunicationDetails(transactionEvent.getSenderAccount());
+    @EventListener(Account.class)
+    void handleTransactionEvent(Account account) {
+        logger.info("_________________START account creation log___________________________");
+        ClientDto recipient = getClientCommunicationDetails(account.getAccountNumber());
         if (recipient.getPrefferedCommunicationMethod().equalsIgnoreCase(EPreferredContactType.SMS.toString())) {
-            logger.info(" Sending SMS  : {} Dear " + GenderConverter.genderConverter(recipient.getSex()) + " , a transaction of : {} has been send to your account :{}", recipient.getCellNumber(), recipient.getClientSurname(), transactionEvent.getTransactionAmount(), LocalDateTime.now());
+
+            logger.info(" Sending SMS   Dear " + GenderConverter.genderConverter(recipient.getSex()) + "  ,Account successfully created "+ recipient.getCellNumber());
         } else
-            logger.info(" Sending EMAIL : {} Dear " + GenderConverter.genderConverter(recipient.getSex()) + " , a transaction of : {} has been send to your account :{}", recipient.getEmail(), recipient.getClientSurname(), transactionEvent.getTransactionAmount(), LocalDateTime.now());
-        logger.info("_________________END of internal transfer log___________________________");
+            logger.info(" Sending EMAIL  Dear " + GenderConverter.genderConverter(recipient.getSex()) + " , Account successfully created "+ recipient.getEmail());
+        //sendHtmlEmail(String to, String subject, String text, String from, String cc) throws MessagingException {
+        //sendEmailService.sendHtmlEmail(recipient.getEmail(),);
+        logger.info("_________________END account creation log___________________________");
     }
+
+
     /**
      * Get communication details of a bank client by passing in their account number
      *
@@ -48,4 +56,6 @@ public class TransactionEventListener {
         client.setSex(bankClient.getESex().toString());
         return client;
     }
+
+
 }

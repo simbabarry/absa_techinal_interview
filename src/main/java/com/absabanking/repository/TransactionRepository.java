@@ -10,6 +10,8 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    Transaction findTransactionBySenderAccount(long accountId);
+    List<Transaction> findTransactionByAccountNumber(Long accountId);
     List<Transaction> findTransactionByAcquiringInstitutionAndTranType(String bankCode, ETranType eTranType);
+    List<Transaction> findTransactionByAccountNumberAndTranType(Long accountId, ETranType eTranType);
+
 }

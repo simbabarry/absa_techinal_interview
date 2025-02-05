@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAsync
 @EnableScheduling
-@SpringBootApplication(scanBasePackages={"com.absabanking.batch","com.absabanking.listener","com.absabanking.dto","com.absabanking.rest","com.absabanking.repository","com.absabanking.model","com.absabanking.enums","com.absabanking.config","com.absabanking.service"})
+@SpringBootApplication(scanBasePackages={"com.absabanking.batch","com.absabanking.listener","com.absabanking.dto", "com.absabanking.controller","com.absabanking.repository","com.absabanking.model","com.absabanking.enums","com.absabanking.config","com.absabanking.service"})
 public class AbsaBankingApplication {
 
     public static void main(String[] args) {

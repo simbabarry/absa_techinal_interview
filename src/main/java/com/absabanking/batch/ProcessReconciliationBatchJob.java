@@ -30,10 +30,17 @@ import java.util.List;
 @EnableBatchProcessing
 @Component
 public class ProcessReconciliationBatchJob {
+    @Autowired
+    public ProcessReconciliationBatchJob(TransactionService transactionService, BankService bankService, EmailService sendEmailService) {
+        this.transactionService = transactionService;
+        this.bankService = bankService;
+        this.sendEmailService = sendEmailService;
+    }
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(ProcessReconciliationBatchJob.class);
     TransactionService transactionService;
     BankService bankService;
     EmailService sendEmailService;
+
     private static final String SUBJECT = "E.O.D reconciliation process";
     private static final String MAIL_TEXT = "Good day  .Please find attached EOD process file.... Thank you";
     @Value("${spring.mail.username}")
@@ -44,12 +51,7 @@ public class ProcessReconciliationBatchJob {
     @Value("${file.upload-dir}")
     private String baseUrl;
 
-    @Autowired
-    public ProcessReconciliationBatchJob(TransactionService transactionService, BankService bankService, EmailService sendEmailService) {
-        this.transactionService = transactionService;
-        this.bankService = bankService;
-        this.sendEmailService = sendEmailService;
-    }
+
     /**
      * This is  a cron   scheduled  to run every day at midnight
      * more  examples here https://crontab.guru/#0_*_*_*
@@ -73,7 +75,7 @@ public class ProcessReconciliationBatchJob {
                 for (Transaction transaction : transactionsOfTheDayByBankCode) {
                     writeEODFiles(bank, transaction);
                     String fileNameToAttachToEmail = writeEODFiles(bank, transaction);
-                    String filePathAndName = baseUrl + bank.getName();
+                    String filePathAndName = baseUrl + bank.getBankName();
                     log.info("retrieved these transactions : {}", transaction.getSenderAccount());
                     sendEODFileAsEmailAttachment(bank.getBankContact().getEmail(), SUBJECT, MAIL_TEXT, from, filePathAndName, bank.getBankContact().getEmail(), fileNameToAttachToEmail);
                 }
@@ -109,8 +111,8 @@ public class ProcessReconciliationBatchJob {
      */
     public String writeEODFiles(Bank bank, Transaction transaction) {
         String fileHeader = "AcquiringInstitution,TransactionFee,PosType,Narrative,ReceiverAccount,Reference,SenderAccount,TranType,TransactionCharges,TransactionCurrencyCode";
-        String dirName = baseUrl + bank.getName();
-        String fileName = bank.getName() + "_" + LocalDate.now() + ".csv";
+        String dirName = baseUrl + bank.getBankName();
+        String fileName = bank.getBankName() + "_" + LocalDate.now() + ".csv";
         FileWriter fileWriter = null;
         Path path = Paths.get(dirName);
         if (!Files.exists(path)) {
