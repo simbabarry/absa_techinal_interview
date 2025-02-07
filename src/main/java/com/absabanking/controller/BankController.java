@@ -1,5 +1,6 @@
 package com.absabanking.controller;
 
+import com.absabanking.dto.BankDto;
 import com.absabanking.model.Bank;
 import com.absabanking.service.BankService;
 import io.swagger.annotations.Api;
@@ -8,14 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 @Api(value = "banks", description = "Manage banks")
 @CrossOrigin
+@Validated
 public class BankController {
     private final BankService bankService;
 
@@ -33,9 +37,12 @@ public class BankController {
 
     @PostMapping("/bank")
     @ApiOperation(value = "Create new bank")
-    ResponseEntity<Bank> createBank(@RequestBody Bank bank) {
-        bankService.createOrUpdateBank(bank);
-        return new ResponseEntity<Bank>(bank, HttpStatus.CREATED);
+    ResponseEntity<?> createBank(@Valid @RequestBody BankDto bankDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
+        bankService.createOrUpdateBank(bankDto);
+        return  ResponseEntity.status(201).body(bankDto);
     }
     @GetMapping("/bank/id/{id}")
     public ResponseEntity<Bank> getBankById(@PathVariable("id") long id) {
