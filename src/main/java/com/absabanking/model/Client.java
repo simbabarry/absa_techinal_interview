@@ -4,6 +4,7 @@ package com.absabanking.model;
 import com.absabanking.enums.EPreferredContactType;
 import com.absabanking.enums.ESex;
 import com.absabanking.enums.Eeducation;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;

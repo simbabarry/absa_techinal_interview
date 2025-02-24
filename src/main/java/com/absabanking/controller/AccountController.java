@@ -3,15 +3,16 @@ package com.absabanking.controller;
 import com.absabanking.payload.request.AccountCreationRequest;
 import com.absabanking.payload.response.AccountCreationResponse;
 import com.absabanking.service.AccountService;
+import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api")
+@Api(value = "accounts", description = "Manage accounts")
+@CrossOrigin
 public class AccountController {
     private final AccountService accountService;
     public AccountController(AccountService accountService) {

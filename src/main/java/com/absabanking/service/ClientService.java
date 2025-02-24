@@ -52,11 +52,11 @@ public class ClientService {
         return clientRepository.count();
     }
 
-    public Optional<ClientResponseDto> findClientByPassportNumber(String clientPassportNumber) {
+    public Optional<Client> findClientByPassportNumber(String clientPassportNumber) {
         return Optional.ofNullable(clientRepository.findClientByPassportNumber(clientPassportNumber));
     }
 
-    public Optional<ClientResponseDto> findClientByClientIDNumber(int clientIDNumber) {
+    public Optional<Client> findClientByClientIDNumber(String clientIDNumber) {
         return Optional.ofNullable(clientRepository.findClientByClientIDNumber(clientIDNumber));
     }
 

@@ -3,6 +3,7 @@ package com.absabanking.model;
 import com.absabanking.enums.EAccountType;
 
 import lombok.*;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 
@@ -30,10 +31,10 @@ public class Account extends AbstractEntity {
     private BigDecimal accountBalance;
     private String accountType;
     private LocalDate servicingDate = LocalDate.now().plusYears(1);
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "client_id",referencedColumnName = "id", nullable = false)
     private Client client;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "bank_id", nullable = false)
     private Bank bank;
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)

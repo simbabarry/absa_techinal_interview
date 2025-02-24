@@ -57,15 +57,15 @@ public class ClientController {
 
     @GetMapping("/client/idNumber")
     @ApiOperation(value = "Get client by id number")
-    public ResponseEntity<ClientResponseDto> getClientByIDNumber(@RequestParam int clientIDNumber) {
-        ClientResponseDto client = clientService.findClientByClientIDNumber(clientIDNumber)
-                .orElseThrow(() -> new ResourceNotFoundException("Client not found with clientIDNumber = " + clientIDNumber));
+    public ResponseEntity<Client> getClientByIDNumber(@RequestParam String idNumber) {
+        Client client = clientService.findClientByClientIDNumber(idNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found with clientIDNumber = " + idNumber));
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
     @GetMapping("/client/passport")
     @ApiOperation(value = "Get client by passport number")
-    public ResponseEntity<ClientResponseDto> getClientByPassPortNumber(@RequestParam String passPortNumber) {
-        ClientResponseDto client = clientService.findClientByPassportNumber(passPortNumber)
+    public ResponseEntity<Client> getClientByPassPortNumber(@RequestParam String passPortNumber) {
+        Client client = clientService.findClientByPassportNumber(passPortNumber)
                 .orElseThrow(() -> new ResourceNotFoundException("Client not found with passport = " + passPortNumber));
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
