@@ -16,6 +16,7 @@ import com.absabanking.util.TransactionReferenceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 
@@ -91,10 +92,13 @@ public class TransactionService {
         Transaction cashDepositTransaction = new Transaction();
         cashDepositTransaction.setTranType(ETranType.CASH_DEPOSIT);
         cashDepositTransaction.setTransactionAmount(depositDto.getAmount());
-        cashDepositTransaction.setNarrative("Cash Deposit of amount " + depositDto.getAmount() + " to " + depositDto.getReceiverAccountNumber());
+        cashDepositTransaction.setNarrative("Cash Deposit of amount " + depositDto.getAmount());
         cashDepositTransaction.setReference(transactionReference);
         cashDepositTransaction.setAccountNumber(receiverAccount.getAccountNumber());
         cashDepositTransaction.setComms("cash deposit detailed message");
+        cashDepositTransaction.setTransactionAmount(depositDto.getAmount());
+        cashDepositTransaction.setSenderAccount(depositDto.getSenderAccountNumber());
+        cashDepositTransaction.setReceiverAccount(depositDto.getReceiverAccountNumber());
 
         transactionRepository.save(cashDepositTransaction);
 
@@ -119,6 +123,10 @@ public class TransactionService {
     public void handleCashDeposit(DepositDto depositDto) {
         Account receiverAccount = accountService.findAccountByAccountNumber(depositDto.getReceiverAccountNumber());
         String transactionReference = TransactionReferenceGenerator.getAlphaNumericString(32);
+
+        if (receiverAccount == null) {
+            throw  new ResourceNotFoundException("account not found " + depositDto.getReceiverAccountNumber());
+        }
 
         if (receiverAccount != null) {
             executeCashDepositTransaction(receiverAccount, depositDto, transactionReference);

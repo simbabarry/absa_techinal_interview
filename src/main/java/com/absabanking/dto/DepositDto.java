@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 public class DepositDto {
     @NotNull
     private Long receiverAccountNumber;
-    @NotNull
     private Long senderAccountNumber;
     @NotNull
     private BigDecimal amount;

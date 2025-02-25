@@ -24,7 +24,7 @@ public class TransactionEventListener {
     @EventListener(Transaction.class)
     void handleTransactionEvent(Transaction transactionEvent) {
         logger.info("_________________START of internal transfer log___________________________");
-        ClientDto recipient = getClientCommunicationDetails(transactionEvent.getSenderAccount());
+        ClientDto recipient = getClientCommunicationDetails(transactionEvent.getReceiverAccount());
         if (recipient.getPrefferedCommunicationMethod().equalsIgnoreCase(EPreferredContactType.SMS.toString())) {
             logger.info(" Sending SMS  : {} Dear " + GenderConverter.genderConverter(recipient.getSex()) + " , a transaction of : {} has been send to your account :{}", recipient.getCellNumber(), recipient.getClientSurname(), transactionEvent.getTransactionAmount(), LocalDateTime.now());
         } else
