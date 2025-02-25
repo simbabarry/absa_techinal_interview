@@ -225,7 +225,10 @@ public class TransactionService {
         withdrawTransaction.setNarrative("Withdrew amount " + withDrawRequestDto.getAmount() + " from " + withDrawRequestDto.getAccountNumber());
         withdrawTransaction.setReference(transactionReference);
         withdrawTransaction.setAccountNumber(account.getAccountNumber());
-        withdrawTransaction.setComms("withdrawawl detailed message");
+        withdrawTransaction.setReceiverAccount(withdrawTransaction.getReceiverAccount());
+        withdrawTransaction.setTransactionAmount(withDrawRequestDto.getAmount());
+        withdrawTransaction.setReceiverAccount(withDrawRequestDto.getAccountNumber());
+        withdrawTransaction.setComms("withdrawal detailed message");
 
         transactionRepository.save(withdrawTransaction);
 
