@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 @Api(value = "accounts", description = "Manage accounts")
@@ -20,8 +22,8 @@ public class AccountController {
     }
     @Description("Create Account")
     @PostMapping("/account/{bankCode}")
-    ResponseEntity<AccountCreationResponse> createAccount(@PathVariable String bankCode, @RequestBody AccountCreationRequest accountCreationRequest) {
-        AccountCreationResponse accountCreationResponse = accountService.createAccount(accountCreationRequest, bankCode);
+    ResponseEntity<List<AccountCreationResponse>> createAccount(@PathVariable String bankCode, @RequestBody AccountCreationRequest accountCreationRequest) {
+        List<AccountCreationResponse> accountCreationResponse = accountService.createAccount(accountCreationRequest, bankCode);
         return new ResponseEntity<>(accountCreationResponse, HttpStatus.CREATED);
     }
 }
