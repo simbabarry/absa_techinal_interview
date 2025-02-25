@@ -1,0 +1,528 @@
+{
+	"info": {
+		"_postman_id": "cfb9d835-4ea5-4dbc-8861-ca7ea2fbdde2",
+		"name": "AbsaBankingApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14498745",
+		"_collection_link": "https://universal-zodiac-535420.postman.co/workspace/Simbarashe-90s-Collection~16ab7a77-f164-4213-8969-d0d58e5f6ef1/collection/14498745-cfb9d835-4ea5-4dbc-8861-ca7ea2fbdde2?action=share&source=collection_link&creator=14498745"
+	},
+	"item": [
+		{
+			"name": "create-bank",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bankAddress\": {\r\n        \"addressLine1\": \"Randburg Ridge\",\r\n        \"addressLine2\": \"67 Oxford Street\",\r\n        \"city\": \"Sandton\",\r\n        \"postalCode\": 21782\r\n    },\r\n    \"bankContact\": {\r\n        \"cellNumber\": 742769619,\r\n        \"email\": \"absa\",\r\n        \"homePhone\": 813440032\r\n    },\r\n    \"bankCode\": \"ABSA_001\",\r\n    \"epreferredContactType\": \"EMAIL\",\r\n    \"bankName\": \"ABSA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/bank",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"bank"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-bank-by-id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bankAddress\": {\r\n        \"addressLine1\": \"Randburg Ridge\",\r\n        \"addressLine2\": \"67 Oxford Street\",\r\n        \"city\": \"Sandton\",\r\n        \"postalCode\": 21782\r\n    },\r\n    \"bankContact\": {\r\n        \"cellNumber\": 742769619,\r\n        \"email\": \"absa\",\r\n        \"homePhone\": 813440032\r\n    },\r\n    \"bankCode\": \"ABSA_001\",\r\n    \"epreferredContactType\": \"EMAIL\",\r\n    \"bankName\": \"ABSA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/bank/id/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"bank",
+						"id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-bank-by-code",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bankAddress\": {\r\n        \"addressLine1\": \"Randburg Ridge\",\r\n        \"addressLine2\": \"67 Oxford Street\",\r\n        \"city\": \"Sandton\",\r\n        \"postalCode\": 21782\r\n    },\r\n    \"bankContact\": {\r\n        \"cellNumber\": 742769619,\r\n        \"email\": \"absa\",\r\n        \"homePhone\": 813440032\r\n    },\r\n    \"bankCode\": \"ABSA_001\",\r\n    \"epreferredContactType\": \"EMAIL\",\r\n    \"bankName\": \"ABSA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/bank/code/?bankCode=ABSA_001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"bank",
+						"code",
+						""
+					],
+					"query": [
+						{
+							"key": "bankCode",
+							"value": "ABSA_001"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-banks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bankAddress\": {\r\n        \"addressLine1\": \"Randburg Ridge\",\r\n        \"addressLine2\": \"67 Oxford Street\",\r\n        \"city\": \"Sandton\",\r\n        \"postalCode\": 21782\r\n    },\r\n    \"bankContact\": {\r\n        \"cellNumber\": 742769619,\r\n        \"email\": \"absa\",\r\n        \"homePhone\": 813440032\r\n    },\r\n    \"bankCode\": \"ABSA_001\",\r\n    \"epreferredContactType\": \"EMAIL\",\r\n    \"bankName\": \"ABSA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/banks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"banks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-another_bank",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bankAddress\": {\r\n        \"addressLine1\": \"Ridgewood Estate\",\r\n        \"addressLine2\": \"1 Slyvia Street\",\r\n        \"city\": \"Cape Town\",\r\n        \"postalCode\": 21782\r\n    },\r\n    \"bankContact\": {\r\n        \"cellNumber\": 12989891,\r\n        \"email\": \"absa\",\r\n        \"homePhone\": 28178171\r\n    },\r\n    \"bankCode\": \"FNB_001\",\r\n    \"epreferredContactType\": \"EMAIL\",\r\n    \"bankName\": \"FNB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/bank",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"bank"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-client-1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": true,\r\n  \"clientAddress\": {\r\n    \"active\": true,\r\n    \"addressLine1\": \"Unit 151 Chianti Lifestyle\",\r\n    \"addressLine2\": \"80 Leeukwop road\",\r\n    \"city\": \"Sandton\",\r\n    \"isActive\": true,\r\n    \"postalCode\": 2196\r\n  },\r\n  \"clientContact\": {\r\n    \"active\": true,\r\n    \"cellNumber\": 774989776,\r\n    \"email\": \"sm@gmail.com\",\r\n    \"homePhone\": 9929332,\r\n    \"isActive\": true\r\n  },\r\n  \"dateOfBirth\": \"2023-04-08T16:04:21.363Z\",\r\n  \"dependents\": 1,\r\n  \"education\": \"MASTERS\",\r\n  \"epreferredContactType\": \"EMAIL\",\r\n  \"esex\": \"FEMALE\",\r\n  \"clientIDNumber\": 96665676,\r\n  \"isActive\": true,\r\n  \"monthlyExpenses\": 899,\r\n  \"clientName\": \"Simbarashe\",\r\n  \"clientPassportNumber\": \"AAD7654\",\r\n  \"eRace\": \"BLACK\",\r\n  \"receiveNotification\": true,\r\n  \"clientSurname\": \"Makwangudze\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/client/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"client",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-client-2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": true,\r\n  \"clientAddress\": {\r\n    \"active\": true,\r\n    \"addressLine1\": \"1 Slyvia road\",\r\n    \"addressLine2\": \"Richwood\",\r\n    \"city\": \"Sandton\",\r\n    \"isActive\": true,\r\n    \"postalCode\": 70988\r\n  },\r\n  \"clientContact\": {\r\n    \"active\": true,\r\n    \"cellNumber\": 287812133,\r\n    \"email\": \"tm@gmail.com\",\r\n    \"homePhone\": 22233,\r\n    \"isActive\": true\r\n  },\r\n  \"dateOfBirth\": \"1989-04-08T16:04:21.363Z\",\r\n  \"dependents\": 1,\r\n  \"education\": \"PHD\",\r\n  \"epreferredContactType\": \"EMAIL\",\r\n  \"esex\": \"MALE\",\r\n  \"clientIDNumber\": 82772663773,\r\n  \"isActive\": true,\r\n  \"monthlyExpenses\": 12223,\r\n  \"clientName\": \"Tafadzwa\",\r\n  \"clientPassportNumber\": \"TYHS82993\",\r\n  \"eRace\": \"ASIAN\",\r\n  \"receiveNotification\": true,\r\n  \"clientSurname\": \"Munkam\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/client/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"client",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-client-by-idnumber",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": true,\r\n  \"clientAddress\": {\r\n    \"active\": true,\r\n    \"addressLine1\": \"Unit 151 Chianti Lifestyle\",\r\n    \"addressLine2\": \"80 Leeukwop road\",\r\n    \"city\": \"Sandton\",\r\n    \"isActive\": true,\r\n    \"postalCode\": 2196\r\n  },\r\n  \"clientContact\": {\r\n    \"active\": true,\r\n    \"cellNumber\": 774989776,\r\n    \"email\": \"sm@gmail.com\",\r\n    \"homePhone\": 9929332,\r\n    \"isActive\": true\r\n  },\r\n  \"dateOfBirth\": \"2023-04-08T16:04:21.363Z\",\r\n  \"dependents\": 1,\r\n  \"education\": \"MASTERS\",\r\n  \"epreferredContactType\": \"EMAIL\",\r\n  \"esex\": \"FEMALE\",\r\n  \"clientIDNumber\": 96665676,\r\n  \"isActive\": true,\r\n  \"monthlyExpenses\": 899,\r\n  \"clientName\": \"Simbarashe\",\r\n  \"clientPassportNumber\": \"AAD7654\",\r\n  \"eRace\": \"BLACK\",\r\n  \"receiveNotification\": true,\r\n  \"clientSurname\": \"Makwangudze\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/client/idNumber/?idNumber=96665676",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"client",
+						"idNumber",
+						""
+					],
+					"query": [
+						{
+							"key": "idNumber",
+							"value": "96665676"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-client-by-passport",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": true,\r\n  \"clientAddress\": {\r\n    \"active\": true,\r\n    \"addressLine1\": \"Unit 151 Chianti Lifestyle\",\r\n    \"addressLine2\": \"80 Leeukwop road\",\r\n    \"city\": \"Sandton\",\r\n    \"isActive\": true,\r\n    \"postalCode\": 2196\r\n  },\r\n  \"clientContact\": {\r\n    \"active\": true,\r\n    \"cellNumber\": 774989776,\r\n    \"email\": \"sm@gmail.com\",\r\n    \"homePhone\": 9929332,\r\n    \"isActive\": true\r\n  },\r\n  \"dateOfBirth\": \"2023-04-08T16:04:21.363Z\",\r\n  \"dependents\": 1,\r\n  \"education\": \"MASTERS\",\r\n  \"epreferredContactType\": \"EMAIL\",\r\n  \"esex\": \"FEMALE\",\r\n  \"clientIDNumber\": 96665676,\r\n  \"isActive\": true,\r\n  \"monthlyExpenses\": 899,\r\n  \"clientName\": \"Simbarashe\",\r\n  \"clientPassportNumber\": \"AAD7654\",\r\n  \"eRace\": \"BLACK\",\r\n  \"receiveNotification\": true,\r\n  \"clientSurname\": \"Makwangudze\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/client/passport/?passPortNumber=AAD7654",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"client",
+						"passport",
+						""
+					],
+					"query": [
+						{
+							"key": "passPortNumber",
+							"value": "AAD7654"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-account-client-1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"clientIDNumber\" :\"96665676\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/account/ABSA_001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"account",
+						"ABSA_001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-account-client-2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"clientIDNumber\" :\"82772663773\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/account/ABSA_001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"account",
+						"ABSA_001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transaction-cash-deposit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"receiverAccountNumber\": 100000000016,\r\n  \"amountTransferred\": 20000,\r\n  \"eTranType\": \"CASH_DEPOSIT\",\r\n  \"amount\": 2000,\r\n  \"senderAccountNumber\": 1001002993\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/transaction/cashDeposit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transaction",
+						"cashDeposit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transaction-internal-transfers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"senderAccount\": 100000000016,\r\n  \"amountTransferred\": 20000,\r\n  \"eTranType\": \"INTERNAL_TRANSFER\",\r\n  \"transactionAmount\": 50,\r\n  \"receiverAccount\": 100000000015,\r\n  \"narrative\":\"transfer money between accounts\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/transaction/internal-transfers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transaction",
+						"internal-transfers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transaction-withdrawal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"accountNumber\": 100000000015,\r\n  \"amount\": 200\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/transaction/withdraw",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transaction",
+						"withdraw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transactions-by-account-number",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"accountNumber\": 100000000015,\r\n  \"amount\": 200\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/transaction/100000000016",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transaction",
+						"100000000016"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transactions-on-behalf",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"accountHolderBankCode\": \"ABSA_001\",\r\n    \"accountNumber\": 200000000001,\r\n    \"actingOnBehalfBankCode\": \"FNB_001\",\r\n    \"epostingType\": \"CREDIT\",\r\n    \"etranType\": \"ACT_ON_BEHALF\",\r\n    \"narrative\": \"shopping at meikles\",\r\n    \"transactionAmount\": 500\r\n  }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/transaction/transaction-on-behalf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transaction",
+						"transaction-on-behalf"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

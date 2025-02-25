@@ -79,7 +79,7 @@ public class TransactionController {
 
     @Transactional
     @GetMapping("/{accountNumber}")
-    @ApiOperation(value = "deposit- transaction")
+    @ApiOperation(value = "find transactions by account number")
     public List<Transaction> transactionsByAccountNumber(@PathVariable Long accountNumber) {
         List<Transaction> tranList;
         tranList = transactionService.transactionsByAccountNumber(accountNumber);
